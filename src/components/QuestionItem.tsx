@@ -12,7 +12,6 @@ interface QuestionItemProps {
 
 const QuestionItem: React.FC<QuestionItemProps> = ({
   question,
-  isHovered,
   onHover,
   onLeave,
 }) => {
