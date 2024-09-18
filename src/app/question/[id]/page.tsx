@@ -38,10 +38,10 @@ const answers: Answer[] = [
 
 export default function QuestionPage() {
   return (
-    <>
+    <section className="container mx-auto px-4 py-16 max-w-4xl">
       <QuestionDetail question={question} />
       <AnswerList answers={answers} />
       <AnswerForm />
-    </>
+    </section>
   );
 }

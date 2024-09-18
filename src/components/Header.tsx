@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  MessageCircle,
+  MessageCircleCode,
   Youtube,
   LogIn,
   Search,
@@ -31,25 +31,25 @@ const Header: React.FC = () => {
           <Button
             variant="outline"
             size="sm"
-            className="hidden lg:inline-flex border-gray-300 hover:bg-gray-100 hover:text-gray-900 transition-all duration-300 ease-in-out"
+            className="hidden lg:inline-flex border-[#5865F2] hover:bg-[#5865F233] hover:text-gray-900 transition-all duration-300 ease-in-out"
           >
-            <MessageCircle className="mr-2 h-4 w-4" />
+            <MessageCircleCode className="mr-2 h-4 w-4" color="#5865f2" />
             Join Discord
           </Button>
           <Button
             variant="outline"
             size="sm"
-            className="hidden lg:inline-flex border-gray-300 hover:bg-gray-100 hover:text-gray-900 transition-all duration-300 ease-in-out"
+            className="hidden lg:inline-flex border-[#c4302b] hover:bg-[#ffc8c6] hover:text-gray-900 transition-all duration-300 ease-in-out"
           >
-            <Youtube className="mr-2 h-4 w-4" />
+            <Youtube className="mr-2 h-4 w-4" color="#c4302b" />
             YouTube
           </Button>
           <Button
             variant="outline"
             size="sm"
-            className="hidden md:inline-flex border-gray-300 hover:bg-gray-100 hover:text-gray-900 transition-all duration-300 ease-in-out"
+            className="hidden md:inline-flex border-[#5865F2] bg-[#5865F233] hover:bg-[#5865F288] hover:text-gray-900 transition-all duration-300 ease-in-out"
           >
-            <LogIn className="mr-2 h-4 w-4" />
+            <LogIn className="mr-2 h-4 w-4" color="#5865f2" />
             Login with Discord
           </Button>
           <Button
