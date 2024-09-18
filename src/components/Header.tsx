@@ -1,14 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import {
-  MessageCircleCode,
-  Youtube,
-  LogIn,
-  Search,
-  Plus,
-  Github,
-} from "lucide-react";
+import { MessageCircleCode, Youtube, Search, Plus, Github } from "lucide-react";
 
 const Header: React.FC = () => {
   return (
