@@ -6,10 +6,10 @@ const Hero: React.FC = () => {
     <section className="bg-gradient-to-r from-[#ffcc00] to-[#ff9900] py-20 px-4">
       <div className="container mx-auto max-w-3xl text-center">
         <h2 className="text-5xl md:text-6xl font-extrabold text-white mb-6 leading-tight drop-shadow-md">
-          Unlock Your Coding Potential
+          Desbloquea tu Potencial como Desarrollador
         </h2>
         <p className="text-xl md:text-2xl text-gray-100 mb-8 drop-shadow">
-          Get answers, Share knowledge, Grow together
+          Obtén respuestas. Comparte conocimiento. Crece en comunidad.
         </p>
         <Button
           size="lg"
