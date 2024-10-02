@@ -1,13 +1,13 @@
 export interface Question {
-  id: number;
+  id: string;
   title: string;
-  content?: string;
   tags: string[];
   votes: number;
   views: number;
   answers: number;
   author: string;
   timeAgo: string;
+  content: string; // Ensure this is included and not optional
 }
 
 export interface Answer {

@@ -5,7 +5,7 @@ import { Question, Answer } from "@/types";
 
 // This would typically come from an API or database
 const question: Question = {
-  id: 1,
+  id: "1",
   title: "How to center a div in CSS?",
   content:
     "I'm trying to center a div both horizontally and vertically within its parent container. I've tried using margin: auto but it only centers horizontally. What's the best way to achieve this?",
