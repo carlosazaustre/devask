@@ -13,7 +13,9 @@ export async function fetchDiscordPosts(): Promise<Question[]> {
   try {
     await client.login(process.env.DISCORD_BOT_TOKEN);
 
-    const channel = await client.channels.fetch(process.env.FORUM_CHANNEL_ID);
+    const channel = await client.channels.fetch(
+      process.env.FORUM_CHANNEL_ID || ""
+    );
 
     if (channel?.type !== 15) {
       throw new Error("The specified channel is not a forum channel");
@@ -21,20 +23,26 @@ export async function fetchDiscordPosts(): Promise<Question[]> {
 
     const threads = await channel.threads.fetchActive();
 
-    const posts = await Promise.all(
+    const posts: Question[] = await Promise.all(
       threads?.threads?.map(async (thread) => {
         const messages = await thread.messages.fetch({ limit: 1 });
         const firstMessage = messages.first();
+        const viewCount =
+          "view_count" in thread ? Number(thread.view_count) : 0;
+        const messageCount = thread.messageCount ?? 0;
+        const createdAt = thread.createdAt
+          ? new Date(thread.createdAt).toLocaleString()
+          : "Unknown date";
 
         return {
           id: thread.id,
           title: thread.name,
-          tags: thread.appliedTags,
-          votes: thread.messageCount,
-          views: thread.viewCount || 0,
-          answers: thread.messageCount - 1,
-          author: firstMessage?.author.username || "Unknown",
-          timeAgo: new Date(thread?.createdAt).toLocaleString(), // Simplified for server-side rendering
+          tags: thread.appliedTags || [],
+          votes: messageCount,
+          views: viewCount,
+          answers: Math.max(0, messageCount - 1),
+          author: firstMessage?.author?.username || "Unknown",
+          timeAgo: createdAt,
           content: firstMessage?.content || "",
         };
       })

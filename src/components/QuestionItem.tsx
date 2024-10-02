@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Question } from "@/types";
+import React, { useState } from "react";
+import { Question } from "../types";
 
 interface QuestionItemProps {
   question: Question;
@@ -20,7 +20,9 @@ const QuestionItem: React.FC<QuestionItemProps> = ({ question }) => {
     >
       <h2 className="text-xl font-semibold mb-2">{question.title}</h2>
       <p className="text-gray-600 mb-4">
-        {question?.content.substring(0, 150)}...
+        {question.content
+          ? question.content.substring(0, 150) + "..."
+          : "No content available"}
       </p>
       <div className="flex justify-between items-center text-sm text-gray-500">
         <span>by {question.author}</span>
