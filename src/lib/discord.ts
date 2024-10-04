@@ -1,5 +1,6 @@
-import { Client, GatewayIntentBits, ThreadChannel } from "discord.js";
+import { Client, GatewayIntentBits, ThreadChannel, Message } from "discord.js";
 import { Question } from "@/types";
+const THREAD_CHANNEL_TYPE = 11;
 
 /**
  * Fetches posts from a specified Discord forum channel.
@@ -24,11 +25,11 @@ export async function fetchDiscordPosts(): Promise<Question[]> {
       process.env.FORUM_CHANNEL_ID || ""
     );
 
-    if (channel?.type !== 15) {
+    if (channel?.type !== THREAD_CHANNEL_TYPE) {
       throw new Error("The specified channel is not a forum channel");
     }
 
-    const threads = await channel.threads.fetchActive();
+    const threads = await channel?.threads.fetchActive();
 
     const posts: Question[] = await Promise.all(
       threads?.threads?.map(async (thread) => {
@@ -91,21 +92,38 @@ export async function fetchDiscordThread(
 
     const thread = (await client.channels.fetch(threadId)) as ThreadChannel;
 
-    if (!thread || thread.type !== 11) {
+    if (!thread || thread.type !== THREAD_CHANNEL_TYPE) {
       // 11 is the type for public thread channels
       throw new Error(
         "The specified thread does not exist or is not a public thread"
       );
     }
 
-    const messages = await thread.messages.fetch({ limit: 1 });
+    const messages = await thread.messages.fetch();
     const firstMessage = messages.first();
+
+    if (!firstMessage) {
+      throw new Error("No messages found in the thread");
+    }
 
     const viewCount = "viewCount" in thread ? Number(thread.viewCount) : 0;
     const messageCount = thread.messageCount ?? 0;
     const createdAt = thread.createdAt
       ? new Date(thread.createdAt).toLocaleString()
       : "Unknown date";
+
+    const replies: Reply[] = messages
+      .filter((msg) => msg.id !== firstMessage.id)
+      .map((msg) => ({
+        id: msg.id,
+        content: msg.content,
+        author: msg.author.username,
+        createdAt: msg.createdAt.toLocaleString(),
+      }))
+      .sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
 
     const question: Question = {
       id: thread.id,
@@ -117,6 +135,7 @@ export async function fetchDiscordThread(
       author: firstMessage?.author?.username || "Unknown",
       timeAgo: createdAt,
       content: firstMessage?.content || "",
+      replies: replies,
     };
 
     return question;

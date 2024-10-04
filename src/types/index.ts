@@ -8,6 +8,14 @@ export interface Question {
   author: string;
   timeAgo: string;
   content: string; // Ensure this is included and not optional
+  replies: Reply[];
+}
+
+export interface Reply {
+  id: string;
+  content: string;
+  author: string;
+  createdAt: string;
 }
 
 export interface Answer {
