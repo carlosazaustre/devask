@@ -90,7 +90,7 @@ const QuestionDetail = ({ question }: { question: Question }) => {
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">
         {question.answers} Answers
       </h2>
-      {question.replies.map((reply) => (
+      {question?.replies?.map((reply) => (
         <ReplyItem key={reply.id} reply={reply} />
       ))}
     </div>

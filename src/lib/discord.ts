@@ -4,7 +4,7 @@ import {
   ThreadChannel,
   ChannelType,
 } from "discord.js";
-import { Question } from "@/types";
+import { Question, Reply } from "@/types";
 
 const FORUM_CHANNEL_TYPE = ChannelType.GuildForum;
 const THREAD_CHANNEL_TYPE = 11;
