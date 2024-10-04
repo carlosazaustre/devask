@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import QuestionItem from "./QuestionItem";
-import { fetchDiscordPosts } from "../lib/discord";
+import { fetchDiscordPosts } from "@/lib/discord";
 
 async function Questions() {
   const questions = await fetchDiscordPosts();
