@@ -13,11 +13,7 @@ import {
 } from "lucide-react";
 import { Question } from "@/types";
 
-interface QuestionDetailProps {
-  question: Question;
-}
-
-const QuestionDetail: React.FC<QuestionDetailProps> = ({ question }) => {
+const QuestionDetail = ({ question }: { question: Question }) => {
   const [upvoted, setUpvoted] = useState(false);
   const [downvoted, setDownvoted] = useState(false);
 

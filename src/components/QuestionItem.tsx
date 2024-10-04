@@ -4,11 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Question } from "@/types";
 
-interface QuestionItemProps {
-  question: Question;
-}
-
-const QuestionItem: React.FC<QuestionItemProps> = ({ question }) => {
+const QuestionItem = ({ question }: { question: Question }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
