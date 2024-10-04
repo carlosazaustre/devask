@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Question } from "../types";
+import Link from "next/link";
+import { Question } from "@/types";
 
 interface QuestionItemProps {
   question: Question;
@@ -18,16 +19,18 @@ const QuestionItem: React.FC<QuestionItemProps> = ({ question }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <h2 className="text-xl font-semibold mb-2">{question.title}</h2>
-      <p className="text-gray-600 mb-4">
-        {question.content
-          ? question.content.substring(0, 150) + "..."
-          : "No content available"}
-      </p>
-      <div className="flex justify-between items-center text-sm text-gray-500">
-        <span>by {question.author}</span>
-        <span>{question.timeAgo}</span>
-      </div>
+      <Link href={`/question/${question.id}`}>
+        <h2 className="text-xl font-semibold mb-2">{question.title}</h2>
+        <p className="text-gray-600 mb-4">
+          {question.content
+            ? question.content.substring(0, 150) + "..."
+            : "No content available"}
+        </p>
+        <div className="flex justify-between items-center text-sm text-gray-500">
+          <span>by {question.author}</span>
+          <span>{question.timeAgo}</span>
+        </div>
+      </Link>
     </div>
   );
 };
