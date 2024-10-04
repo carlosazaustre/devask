@@ -11,13 +11,21 @@ import {
   Clock,
   User,
 } from "lucide-react";
-import { Question } from "@/types";
+import { Question, Reply } from "@/types";
 
-interface QuestionDetailProps {
-  question: Question;
-}
+const ReplyItem = ({ reply }: { reply: Reply }) => (
+  <div className="border-t border-gray-200 pt-4 mt-4">
+    <p className="text-gray-700 mb-2">{reply.content}</p>
+    <div className="flex items-center text-sm text-gray-500">
+      <User className="h-4 w-4 mr-1" />
+      <span className="mr-4">{reply.author}</span>
+      <Clock className="h-4 w-4 mr-1" />
+      <span>{reply.createdAt}</span>
+    </div>
+  </div>
+);
 
-const QuestionDetail: React.FC<QuestionDetailProps> = ({ question }) => {
+const QuestionDetail = ({ question }: { question: Question }) => {
   const [upvoted, setUpvoted] = useState(false);
   const [downvoted, setDownvoted] = useState(false);
 
@@ -78,6 +86,13 @@ const QuestionDetail: React.FC<QuestionDetailProps> = ({ question }) => {
           </Button>
         </div>
       </div>
+
+      <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">
+        {question.answers} Answers
+      </h2>
+      {question?.replies?.map((reply) => (
+        <ReplyItem key={reply.id} reply={reply} />
+      ))}
     </div>
   );
 };

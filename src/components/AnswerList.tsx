@@ -1,11 +1,7 @@
 import AnswerItem from "./AnswerItem";
 import { Answer } from "@/types";
 
-interface AnswerListProps {
-  answers: Answer[];
-}
-
-const AnswerList: React.FC<AnswerListProps> = ({ answers }) => {
+const AnswerList = ({ answers }: { answers: Answer[] }) => {
   return (
     <div>
       <h2 className="text-2xl font-bold text-gray-900 mb-4">

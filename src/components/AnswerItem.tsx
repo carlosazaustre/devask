@@ -6,11 +6,7 @@ import { Answer } from "@/types";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-interface AnswerItemProps {
-  answer: Answer;
-}
-
-const AnswerItem: React.FC<AnswerItemProps> = ({ answer }) => {
+const AnswerItem = ({ answer }: { answer: Answer }) => {
   const renderContent = (content: string) => {
     const codeRegex = /```(\w+)?\s*([\s\S]*?)```/g;
     const parts = [];
