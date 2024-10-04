@@ -1,13 +1,11 @@
 import Hero from "@/components/Hero";
-import QuestionList from "@/components/QuestionList";
+import QuestionListWrapper from "@/components/QuestionListWrapper";
 
 export default function Home() {
   return (
-    <>
-      <main className="flex-1">
-        <Hero />
-        <QuestionList />
-      </main>
-    </>
+    <main className="flex-1">
+      <Hero />
+      <QuestionListWrapper />
+    </main>
   );
 }
