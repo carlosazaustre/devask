@@ -8,7 +8,7 @@ export interface Question {
   author: string;
   timeAgo: string;
   content: string; // Ensure this is included and not optional
-  replies: Reply[];
+  replies?: Reply[];
 }
 
 export interface Reply {

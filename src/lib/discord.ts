@@ -1,5 +1,12 @@
-import { Client, GatewayIntentBits, ThreadChannel, Message } from "discord.js";
+import {
+  Client,
+  GatewayIntentBits,
+  ThreadChannel,
+  ChannelType,
+} from "discord.js";
 import { Question } from "@/types";
+
+const FORUM_CHANNEL_TYPE = ChannelType.GuildForum;
 const THREAD_CHANNEL_TYPE = 11;
 
 /**
@@ -25,32 +32,31 @@ export async function fetchDiscordPosts(): Promise<Question[]> {
       process.env.FORUM_CHANNEL_ID || ""
     );
 
-    if (channel?.type !== THREAD_CHANNEL_TYPE) {
-      throw new Error("The specified channel is not a forum channel");
+    if (!channel || channel.type !== FORUM_CHANNEL_TYPE) {
+      console.error(
+        "The specified channel is not a forum channel or cannot be accessed"
+      );
+      return []; // Return an empty array instead of throwing an error
     }
 
-    const threads = await channel?.threads.fetchActive();
+    const threads = await channel.threads.fetchActive();
 
     const posts: Question[] = await Promise.all(
-      threads?.threads?.map(async (thread) => {
+      threads.threads.map(async (thread) => {
         const messages = await thread.messages.fetch({ limit: 1 });
         const firstMessage = messages.first();
-        const viewCount =
-          "view_count" in thread ? Number(thread.view_count) : 0;
-        const messageCount = thread.messageCount ?? 0;
-        const createdAt = thread.createdAt
-          ? new Date(thread.createdAt).toLocaleString()
-          : "Unknown date";
 
         return {
           id: thread.id,
-          title: thread.name,
+          title: thread.name || "Untitled",
           tags: thread.appliedTags || [],
-          votes: messageCount,
-          views: viewCount,
-          answers: Math.max(0, messageCount - 1),
+          votes: thread.messageCount || 0,
+          views: "viewCount" in thread ? Number(thread.viewCount) : 0,
+          answers: Math.max(0, (thread.messageCount || 1) - 1),
           author: firstMessage?.author?.username || "Unknown",
-          timeAgo: createdAt,
+          timeAgo: thread.createdAt
+            ? new Date(thread.createdAt).toLocaleString()
+            : "Unknown date",
           content: firstMessage?.content || "",
         };
       })
@@ -59,7 +65,7 @@ export async function fetchDiscordPosts(): Promise<Question[]> {
     return posts;
   } catch (error) {
     console.error("Error fetching Discord posts:", error);
-    throw error;
+    return []; // Return an empty array in case of any error
   } finally {
     await client.destroy();
   }
