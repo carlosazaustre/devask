@@ -56,23 +56,22 @@ const QuestionDetailSkeleton = () => {
       <div className="flex justify-between items-center my-4">
         <ContentLoader
           speed={2}
-          height={32}
+          height={18}
           backgroundColor="#f0f0f0"
           foregroundColor="#ecebeb"
         >
-          {/* 3 Tags */}
           <rect x="0" y="0" rx="12" ry="12" width="140" height="18" />
         </ContentLoader>
 
         {/* Botones Skeleton (Upvote/Downvote) */}
         <ContentLoader
           speed={2}
-          height={40}
+          height={38}
           backgroundColor="#f0f0f0"
           foregroundColor="#ecebeb"
         >
-          <rect x="70" y="0" rx="4" ry="4" width="100" height="40" />
-          <rect x="180" y="0" rx="4" ry="4" width="120" height="40" />
+          <rect x="70" y="0" rx="4" ry="4" width="100" height="38" />
+          <rect x="180" y="0" rx="4" ry="4" width="120" height="38" />
         </ContentLoader>
       </div>
 
@@ -81,11 +80,11 @@ const QuestionDetailSkeleton = () => {
         <ContentLoader
           speed={2}
           width="100%"
-          height={40}
+          height={30}
           backgroundColor="#f0f0f0"
           foregroundColor="#ecebeb"
         >
-          <rect x="0" y="0" rx="4" ry="4" width="8%" height="40" />
+          <rect x="0" y="0" rx="4" ry="4" width="14%" height="40" />
         </ContentLoader>
       </div>
 
