@@ -5,7 +5,7 @@ import ContentLoader from "react-content-loader";
 const QuestionDetailSkeleton = () => {
   return (
     <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-      {/* Título Skeleton */}
+      {/* Title Skeleton */}
       <ContentLoader
         speed={2}
         width="100%"
@@ -25,7 +25,7 @@ const QuestionDetailSkeleton = () => {
           backgroundColor="#f0f0f0"
           foregroundColor="#ecebeb"
         >
-          {/* Iconos y texto para views, answers, etc */}
+          {/* Icons and text for views, answers, etc */}
           <rect x="0" y="0" rx="4" ry="4" width="6%" height="16" />
           <rect x="7%" y="0" rx="4" ry="4" width="10%" height="16" />
           <rect x="18%" y="0" rx="4" ry="4" width="5%" height="16" />
@@ -33,9 +33,8 @@ const QuestionDetailSkeleton = () => {
         </ContentLoader>
       </div>
 
-      {/* Contenido del artículo Skeleton */}
+      {/* Article content skeleton */}
       <div className="my-3">
-
         <ContentLoader
           speed={2}
           width="100%"
@@ -43,14 +42,13 @@ const QuestionDetailSkeleton = () => {
           backgroundColor="#f0f0f0"
           foregroundColor="#ecebeb"
         >
-          {/* Varias líneas de texto */}
+          {/* Multiple lines of text */}
           <rect x="0" y="0" rx="4" ry="4" width="100%" height="18" />
           <rect x="0" y="25" rx="4" ry="4" width="90%" height="18" />
           <rect x="0" y="50" rx="4" ry="4" width="95%" height="18" />
           <rect x="0" y="75" rx="4" ry="4" width="60%" height="18" />
         </ContentLoader>
       </div>
-
 
       {/* Tags Skeleton */}
       <div className="flex justify-between items-center my-4">
@@ -63,7 +61,7 @@ const QuestionDetailSkeleton = () => {
           <rect x="0" y="0" rx="12" ry="12" width="140" height="18" />
         </ContentLoader>
 
-        {/* Botones Skeleton (Upvote/Downvote) */}
+        {/* Buttons Skeleton (Upvote/Downvote) */}
         <ContentLoader
           speed={2}
           height={38}
@@ -109,7 +107,7 @@ const QuestionDetailSkeleton = () => {
               backgroundColor="#f0f0f0"
               foregroundColor="#ecebeb"
             >
-              {/* Iconos y texto para views, answers, etc */}
+              {/* Icons and text for reply views, answers, etc */}
               <rect x="0" y="0" rx="4" ry="4" width="6%" height="16" />
               <rect x="7%" y="0" rx="4" ry="4" width="12%" height="16" />
             </ContentLoader>
