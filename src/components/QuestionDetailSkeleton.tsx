@@ -89,7 +89,7 @@ const QuestionDetailSkeleton = () => {
         </ContentLoader>
       </div>
 
-      {[...Array(4)].map((_, index) => (
+      {[...Array(3)].map((_, index) => (
         <div key={index} className="border-t border-gray-200 pt-4 mt-4">
           <ContentLoader
             speed={2}
