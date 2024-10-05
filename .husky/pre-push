@@ -1,15 +1,17 @@
 #!/usr/bin/env sh
+set -e
 . "$(dirname -- "$0")/_/husky.sh"
 
 echo "Running pre-push checks..."
 
-npm run lint
-LINT_STATUS=$?
-
-if [ $LINT_STATUS -eq 0 ]; then
-  echo "Linting passed. Pushing..."
-  exit 0
-else
+if ! npm run lint; then
   echo "Linting failed. Please fix the errors before pushing."
   exit 1
 fi
+
+if ! npm run build; then
+  echo "Build failed. Please fix the errors before pushing."
+  exit 1
+fi
+
+echo "All checks passed. Pushing..."
