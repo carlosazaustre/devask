@@ -2,12 +2,20 @@ import {
   Client,
   GatewayIntentBits,
   ThreadChannel,
+  ForumChannel,
   ChannelType,
+  ReadonlyCollection,
+  AnyThreadChannel,
 } from "discord.js";
 import { Question, Reply } from "@/types";
 
 const FORUM_CHANNEL_TYPE = ChannelType.GuildForum;
 const THREAD_CHANNEL_TYPE = ChannelType.PublicThread;
+
+interface DiscordPosts {
+  activePosts: Question[];
+  pastPosts: Question[];
+}
 
 /**
  * Fetches posts from a specified Discord forum channel.
@@ -27,7 +35,7 @@ const THREAD_CHANNEL_TYPE = ChannelType.PublicThread;
  * an empty array is returned.
  *
  */
-export async function fetchDiscordPosts(): Promise<Question[]> {
+export async function fetchDiscordPosts(): Promise<DiscordPosts> {
   const client = new Client({
     intents: [
       GatewayIntentBits.Guilds,
@@ -47,39 +55,61 @@ export async function fetchDiscordPosts(): Promise<Question[]> {
       console.error(
         "The specified channel is not a forum channel or cannot be accessed"
       );
-      return []; // Return an empty array instead of throwing an error
+      return { activePosts: [], pastPosts: [] }; // Return an empty array instead of throwing an error
     }
 
-    const threads = await channel.threads.fetchActive();
+    const forumChannel = channel as ForumChannel;
 
-    const posts: Question[] = await Promise.all(
-      threads.threads.map(async (thread) => {
-        const messages = await thread.messages.fetch({ limit: 1 });
-        const firstMessage = messages.first();
+    const activeThreads = await forumChannel.threads.fetchActive();
+    const pastThreads = await forumChannel.threads.fetchArchived();
 
-        return {
-          id: thread.id,
-          title: thread.name || "Untitled",
-          tags: thread.appliedTags || [],
-          votes: thread.messageCount || 0,
-          views: "viewCount" in thread ? Number(thread.viewCount) : 0,
-          answers: Math.max(0, (thread.messageCount || 1) - 1),
-          author: firstMessage?.author?.username || "Unknown",
-          timeAgo: thread.createdAt
-            ? new Date(thread.createdAt).toLocaleString()
-            : "Unknown date",
-          content: firstMessage?.content || "",
-        };
-      })
-    );
+    const activePosts = await processThreads(activeThreads.threads);
+    const pastPosts = await processThreads(pastThreads.threads);
 
-    return posts;
+    return {
+      activePosts,
+      pastPosts,
+    };
   } catch (error) {
     console.error("Error fetching Discord posts:", error);
-    return []; // Return an empty array in case of any error
+    return { activePosts: [], pastPosts: [] }; // Return an empty array in case of any error
   } finally {
     await client.destroy();
   }
+}
+
+/**
+ * Processes a collection of Discord threads and extracts relevant information
+ * to form an array of questions.
+ *
+ * @param threads - A collection of Discord threads to process.
+ * @returns A promise that resolves to an array of questions, each containing
+ *          details such as id, title, tags, votes, views, answers, author,
+ *          timeAgo, and content.
+ */
+async function processThreads(
+  threads: ReadonlyCollection<string, AnyThreadChannel>
+): Promise<Question[]> {
+  return Promise.all(
+    Array.from(threads.values()).map(async (thread) => {
+      const messages = await thread.messages.fetch({ limit: 1 });
+      const firstMessage = messages.last();
+
+      return {
+        id: thread.id,
+        title: thread.name || "Untitled",
+        tags: "appliedTags" in thread ? thread.appliedTags : [],
+        votes: thread.messageCount || 0,
+        views: "viewCount" in thread ? Number(thread.viewCount) : 0,
+        answers: Math.max(0, (thread.messageCount || 1) - 1),
+        author: firstMessage?.author?.username || "Unknown",
+        timeAgo: thread.createdAt
+          ? new Date(thread.createdAt).toLocaleString()
+          : "Unknown date",
+        content: firstMessage?.content || "",
+      };
+    })
+  );
 }
 
 /**
