@@ -7,7 +7,7 @@ import {
 import { Question, Reply } from "@/types";
 
 const FORUM_CHANNEL_TYPE = ChannelType.GuildForum;
-const THREAD_CHANNEL_TYPE = 11;
+const THREAD_CHANNEL_TYPE = ChannelType.PublicThread; // 11 is the type for public threads
 
 /**
  * Fetches posts from a specified Discord forum channel.
@@ -99,20 +99,18 @@ export async function fetchDiscordThread(
     const thread = (await client.channels.fetch(threadId)) as ThreadChannel;
 
     if (!thread || thread.type !== THREAD_CHANNEL_TYPE) {
-      // 11 is the type for public thread channels
       throw new Error(
         "The specified thread does not exist or is not a public thread"
       );
     }
 
     const messages = await thread.messages.fetch();
-    const firstMessage = messages.first();
+    const firstMessage = messages.last();
+    const viewCount = "view_count" in thread ? Number(thread.view_count) : 0;
 
     if (!firstMessage) {
       throw new Error("No messages found in the thread");
     }
-
-    const viewCount = "viewCount" in thread ? Number(thread.viewCount) : 0;
     const messageCount = thread.messageCount ?? 0;
     const createdAt = thread.createdAt
       ? new Date(thread.createdAt).toLocaleString()
