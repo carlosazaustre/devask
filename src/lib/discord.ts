@@ -20,20 +20,15 @@ interface DiscordPosts {
 /**
  * Fetches posts from a specified Discord forum channel.
  *
- * @returns {Promise<Question[]>} A promise that resolves to an array of questions
- * fetched from the Discord forum channel.
+ * This function logs into a Discord client using a bot token, fetches the specified forum channel,
+ * and retrieves both active and archived threads from the channel. It processes these threads to
+ * extract posts and returns them categorized as active and past posts.
  *
- * @throws Will log an error message if there is an issue with fetching the posts.
+ * @returns {Promise<DiscordPosts>} A promise that resolves to an object containing
+ * arrays of active and past posts.
  *
- * @remarks
- * This function uses the Discord.js library to interact with the Discord API.
- * It logs in using a bot token, fetches the specified forum channel, and retrieves
- * active threads.
- * Each thread's first message is used to construct a `Question` object.
- * If the specified channel is not a forum channel or cannot be accessed, or if
- * any other error occurs,
- * an empty array is returned.
- *
+ * @throws Will log an error and return empty arrays if there is an issue with fetching
+ * the posts or if the specified channel is not a forum channel.
  */
 export async function fetchDiscordPosts(): Promise<DiscordPosts> {
   const client = new Client({
@@ -116,12 +111,11 @@ async function processThreads(
  * Fetches a Discord thread and returns its details as a `Question` object.
  *
  * @param threadId - The ID of the Discord thread to fetch.
- * @returns A promise that resolves to a `Question` object containing the
- * thread details, or `null` if an error occurs.
+ * @returns A promise that resolves to a `Question` object containing the thread
+ * details, or `null` if an error occurs.
  *
- * @throws Will throw an error if the specified thread does not exist, is not a
- * public thread, or if no messages are found in the thread.
- *
+ * @throws Will throw an error if the specified thread does not exist, is not
+ * a public thread, or if no messages are found in the thread.
  */
 export async function fetchDiscordThread(
   threadId: string
