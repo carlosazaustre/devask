@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { fetchDiscordThread } from "@/lib/discord";
 import QuestionDetail from "./QuestionDetail";
-import QuestionDetailSkeleton from "./QuestionDetailSkeleton";
+import QuestionSkeleton from "./QuestionSkeleton";
 
 async function QuestionContent({ id }: { id: string }) {
   const question = await fetchDiscordThread(id);
@@ -16,7 +16,7 @@ async function QuestionContent({ id }: { id: string }) {
 export default function QuestionDetailWrapper({ id }: { id: string }) {
   return (
     <div className="flex-1">
-      <Suspense fallback={<QuestionDetailSkeleton />}>
+      <Suspense fallback={<QuestionSkeleton />}>
         <QuestionContent id={id} />
       </Suspense>
     </div>
