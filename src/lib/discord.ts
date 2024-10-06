@@ -7,14 +7,25 @@ import {
 import { Question, Reply } from "@/types";
 
 const FORUM_CHANNEL_TYPE = ChannelType.GuildForum;
-const THREAD_CHANNEL_TYPE = ChannelType.PublicThread; // 11 is the type for public threads
+const THREAD_CHANNEL_TYPE = ChannelType.PublicThread;
 
 /**
  * Fetches posts from a specified Discord forum channel.
  *
- * @returns {Promise<Question[]>} A promise that resolves to an array of questions.
+ * @returns {Promise<Question[]>} A promise that resolves to an array of questions
+ * fetched from the Discord forum channel.
  *
- * @throws Will throw an error if the specified channel is not a forum channel or if there is an issue fetching the posts.
+ * @throws Will log an error message if there is an issue with fetching the posts.
+ *
+ * @remarks
+ * This function uses the Discord.js library to interact with the Discord API.
+ * It logs in using a bot token, fetches the specified forum channel, and retrieves
+ * active threads.
+ * Each thread's first message is used to construct a `Question` object.
+ * If the specified channel is not a forum channel or cannot be accessed, or if
+ * any other error occurs,
+ * an empty array is returned.
+ *
  */
 export async function fetchDiscordPosts(): Promise<Question[]> {
   const client = new Client({
@@ -72,15 +83,15 @@ export async function fetchDiscordPosts(): Promise<Question[]> {
 }
 
 /**
- * Fetches a Discord thread by its ID and returns a `Question` object containing
- * details about the thread.
+ * Fetches a Discord thread and returns its details as a `Question` object.
  *
  * @param threadId - The ID of the Discord thread to fetch.
- * @returns A promise that resolves to a `Question` object containing details
- * about the thread, or `null` if the thread does not exist or an error occurs.
+ * @returns A promise that resolves to a `Question` object containing the
+ * thread details, or `null` if an error occurs.
  *
- * @throws Will throw an error if the specified thread does not exist or is not
- * a public thread.
+ * @throws Will throw an error if the specified thread does not exist, is not a
+ * public thread, or if no messages are found in the thread.
+ *
  */
 export async function fetchDiscordThread(
   threadId: string
@@ -105,13 +116,14 @@ export async function fetchDiscordThread(
     }
 
     const messages = await thread.messages.fetch();
-    const firstMessage = messages.last();
     const viewCount = "view_count" in thread ? Number(thread.view_count) : 0;
+    const messageCount = thread.messageCount ?? 0;
 
+    const firstMessage = messages.last();
     if (!firstMessage) {
       throw new Error("No messages found in the thread");
     }
-    const messageCount = thread.messageCount ?? 0;
+
     const createdAt = thread.createdAt
       ? new Date(thread.createdAt).toLocaleString()
       : "Unknown date";
