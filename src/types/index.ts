@@ -17,11 +17,3 @@ export interface Reply {
   author: string;
   createdAt: string;
 }
-
-export interface Answer {
-  id: number;
-  content: string;
-  author: string;
-  votes: number;
-  timeAgo: string;
-}
