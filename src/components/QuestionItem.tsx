@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Question } from "@/types";
+import { getRelativeString } from "@/lib/dateUtils";
 
 const QuestionItem = ({ question }: { question: Question }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -24,7 +25,7 @@ const QuestionItem = ({ question }: { question: Question }) => {
         </p>
         <div className="flex justify-between items-center text-sm text-gray-500">
           <span>by {question.author}</span>
-          <span>{question.timeAgo}</span>
+          <span>{getRelativeString(question.timeAgo)}</span>
         </div>
       </Link>
     </div>

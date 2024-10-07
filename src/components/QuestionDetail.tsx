@@ -12,6 +12,7 @@ import {
   User,
 } from "lucide-react";
 import { Question, Reply } from "@/types";
+import { getRelativeString } from "@/lib/dateUtils";
 
 const ReplyItem = ({ reply }: { reply: Reply }) => (
   <div className="border-t border-gray-200 pt-4 mt-4">
@@ -20,7 +21,7 @@ const ReplyItem = ({ reply }: { reply: Reply }) => (
       <User className="h-4 w-4 mr-1" />
       <span className="mr-4">{reply.author}</span>
       <Clock className="h-4 w-4 mr-1" />
-      <span>{reply.createdAt}</span>
+      <span>{getRelativeString(reply.createdAt)}</span>
     </div>
   </div>
 );
@@ -45,7 +46,7 @@ const QuestionDetail = ({ question }: { question: Question }) => {
         </span>
         <span className="flex items-center mr-4">
           <Clock className="h-4 w-4 mr-1" />
-          {question.timeAgo}
+          {getRelativeString(question.timeAgo)}
         </span>
         <span className="flex items-center">
           <User className="h-4 w-4 mr-1" />

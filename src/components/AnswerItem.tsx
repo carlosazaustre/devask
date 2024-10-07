@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowUp, ArrowDown, User, Clock } from "lucide-react";
 import { Answer } from "@/types";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { getRelativeString } from "@/lib/dateUtils";
 import { tomorrow } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const AnswerItem = ({ answer }: { answer: Answer }) => {
@@ -59,7 +60,7 @@ const AnswerItem = ({ answer }: { answer: Answer }) => {
             </span>
             <span className="flex items-center">
               <Clock className="h-4 w-4 mr-1" />
-              {answer.timeAgo}
+              {getRelativeString(answer.timeAgo)}
             </span>
           </div>
         </div>
