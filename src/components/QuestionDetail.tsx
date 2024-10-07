@@ -38,11 +38,11 @@ const QuestionDetail = ({ question }: { question: Question }) => {
       <div className="flex items-center text-sm text-gray-500 mb-4">
         <span className="flex items-center mr-4">
           <Eye className="h-4 w-4 mr-1" />
-          {question.views} views
+          {question.views} vistas
         </span>
         <span className="flex items-center mr-4">
           <MessageCircle className="h-4 w-4 mr-1" />
-          {question.answers} answers
+          {question.answers} respuestas
         </span>
         <span className="flex items-center mr-4">
           <Clock className="h-4 w-4 mr-1" />
@@ -74,7 +74,6 @@ const QuestionDetail = ({ question }: { question: Question }) => {
             onClick={() => setUpvoted(!upvoted)}
           >
             <ArrowUp className="h-4 w-4 mr-1" />
-            Upvote
           </Button>
           <Button
             variant="outline"
@@ -83,13 +82,12 @@ const QuestionDetail = ({ question }: { question: Question }) => {
             onClick={() => setDownvoted(!downvoted)}
           >
             <ArrowDown className="h-4 w-4 mr-1" />
-            Downvote
           </Button>
         </div>
       </div>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">
-        {question.answers} Answers
+        {question.answers} respuestas
       </h2>
       {question?.replies?.map((reply) => (
         <ReplyItem key={reply.id} reply={reply} />

@@ -24,7 +24,7 @@ const QuestionItem = ({ question }: { question: Question }) => {
             : "No content available"}
         </p>
         <div className="flex justify-between items-center text-sm text-gray-500">
-          <span>by {question.author}</span>
+          <span>por {question.author}</span>
           <span>{getRelativeString(question.timeAgo)}</span>
         </div>
       </Link>
