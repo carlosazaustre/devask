@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { fetchDiscordPosts, fetchDiscordThread } from "./discordMock";
+import { fetchDiscordPosts, fetchDiscordThread } from "./mock";
 import { Question } from "@/types";
-import mockData from "../mocks/discordData.json";
+import mockData from "../../mocks/discordData.json";
 
 describe("Discord Mock API", () => {
   describe("fetchDiscordPosts", () => {

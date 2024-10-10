@@ -9,14 +9,10 @@ import {
   Message,
 } from "discord.js";
 import { Question, Reply } from "@/types";
+import { DiscordApi } from "./types";
 
 const FORUM_CHANNEL_TYPE = ChannelType.GuildForum;
 const THREAD_CHANNEL_TYPE = ChannelType.PublicThread;
-
-interface DiscordPosts {
-  activePosts: Question[];
-  pastPosts: Question[];
-}
 
 /**
  * Extracts relevant information from a Discord thread to form a Question object.
@@ -83,15 +79,16 @@ async function processThreads(
 }
 
 /**
- * Fetches a Discord thread and returns its details as a `Question` object.
+ * Fetches a Discord thread by its ID and extracts a question from it.
  *
  * @param threadId - The ID of the Discord thread to fetch.
- * @returns A promise that resolves to a `Question` object containing the thread
- * details, or `null` if an error occurs.
+ * @returns The extracted question from the thread, or null if an error occurs.
+ *
+ * @throws Will throw an error if the specified thread does not exist, is not a public thread, or if no messages are found in the thread.
  */
-export async function fetchDiscordThread(
+export const fetchDiscordThread: DiscordApi["fetchDiscordThread"] = async (
   threadId: string
-): Promise<Question | null> {
+) => {
   const client = new Client({
     intents: [
       GatewayIntentBits.Guilds,
@@ -124,22 +121,24 @@ export async function fetchDiscordThread(
   } finally {
     await client.destroy();
   }
-}
+};
 
 /**
- * Fetches posts from a specified Discord forum channel.
+ * Fetches posts from a Discord forum channel.
  *
- * This function logs into a Discord client using a bot token, fetches the specified forum channel,
- * and retrieves both active and archived threads from the channel. It processes these threads to
- * extract posts and returns them categorized as active and past posts.
+ * This function logs into a Discord client using a bot token, fetches a specified forum channel,
+ * and retrieves both active and archived threads from the channel. It processes these threads
+ * and returns the posts contained within them.
  *
- * @returns {Promise<DiscordPosts>} A promise that resolves to an object containing
- * arrays of active and past posts.
+ * @returns {Promise<{ activePosts: any[]; pastPosts: any[] }>} An object containing arrays of active and past posts.
  *
- * @throws Will log an error and return empty arrays if there is an issue with fetching
- * the posts or if the specified channel is not a forum channel.
+ * @throws Will log an error message if there is an issue logging in, fetching the channel, or processing the threads.
+ *
+ * @example
+ * const { activePosts, pastPosts } = await fetchDiscordPosts();
+ * console.log(activePosts, pastPosts);
  */
-export async function fetchDiscordPosts(): Promise<DiscordPosts> {
+export const fetchDiscordPosts: DiscordApi["fetchDiscordPosts"] = async () => {
   const client = new Client({
     intents: [
       GatewayIntentBits.Guilds,
@@ -180,4 +179,4 @@ export async function fetchDiscordPosts(): Promise<DiscordPosts> {
   } finally {
     await client.destroy();
   }
-}
+};

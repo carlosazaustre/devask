@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import { fetchDiscordPosts } from "@/lib/discordProd";
+import { discordApi } from "@/lib/discord";
 import QuestionList from "./QuestionList";
 import QuestionSkeleton from "./QuestionSkeleton";
 
 export default async function QuestionListWrapper() {
-  const { activePosts, pastPosts } = await fetchDiscordPosts();
+  const { activePosts, pastPosts } = await discordApi.fetchDiscordPosts();
 
   return (
     <section className="container mx-auto px-4 py-16 max-w-4xl">

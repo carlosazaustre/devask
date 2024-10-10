@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import { fetchDiscordThread } from "@/lib/discordProd";
+import { discordApi } from "@/lib/discord";
 import QuestionDetail from "./QuestionDetail";
 import QuestionSkeleton from "./QuestionSkeleton";
 
 async function QuestionContent({ id }: { id: string }) {
-  const question = await fetchDiscordThread(id);
+  const question = await discordApi.fetchDiscordThread(id);
 
   if (!question) {
     return <div>Question not found</div>;
