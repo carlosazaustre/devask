@@ -128,7 +128,7 @@ export const fetchDiscordThread: DiscordApi["fetchDiscordThread"] = async (
     console.error("Error fetching Discord thread:", error);
     return null;
   } finally {
-    // await client.destroy();
+    await client.destroy();
   }
 };
 
@@ -179,6 +179,6 @@ export const fetchDiscordPosts: DiscordApi["fetchDiscordPosts"] = async () => {
     console.error("Error fetching Discord posts:", error);
     return { activePosts: [], pastPosts: [] };
   } finally {
-    // await client.destroy();
+    await client.destroy();
   }
 };
