@@ -1,5 +1,16 @@
 const rtf = new Intl.RelativeTimeFormat("es", { numeric: "auto" });
 
+/**
+ * Returns a relative time string in Spanish for a given date string.
+ * 
+ * @param dateString - The date string to be converted to a relative time string.
+ * @returns A string representing the relative time from the given date to now.
+ * 
+ * @example
+ * ```typescript
+ * getRelativeString("2023-10-01T12:00:00Z"); // "hace 2 días"
+ * ```
+ */
 export function getRelativeString(dateString: string): string {
   const date = new Date(dateString);
   const now = new Date();
