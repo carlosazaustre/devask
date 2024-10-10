@@ -88,21 +88,9 @@ describe("Discord Mock API", () => {
       const { activePosts, pastPosts } = await fetchDiscordPosts();
       const allPosts = [...activePosts, ...pastPosts];
 
-      console.log(
-        "Original mock data:",
-        JSON.stringify(mockData.posts, null, 2)
-      );
-      console.log("Fetched posts:", JSON.stringify(allPosts, null, 2));
-
       expect(allPosts.length).toBe(mockData.posts.length);
 
       allPosts.forEach((post, index) => {
-        console.log(`Comparing post ${index}:`);
-        console.log("Fetched post:", JSON.stringify(post, null, 2));
-        console.log(
-          "Mock data post:",
-          JSON.stringify(mockData.posts[index], null, 2)
-        );
         expect(post.id).toBe(mockData.posts[index].id);
         expect(post.title).toBe(mockData.posts[index].title);
       });
