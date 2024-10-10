@@ -1,0 +1,72 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "How to center a div?",
+      "content": "I've been trying to center a div for hours. Any help?",
+      "author": "CSSNewbie",
+      "timeAgo": "2023-05-20T10:30:00Z",
+      "tags": ["css", "html"],
+      "votes": 5,
+      "views": 42,
+      "answers": 3,
+      "replies": [
+        {
+          "id": "101",
+          "content": "Have you tried using flexbox? Just set display: flex; and justify-content: center; on the parent element.",
+          "author": "FlexboxMaster",
+          "createdAt": "2023-05-20T11:00:00Z"
+        },
+        {
+          "id": "102",
+          "content": "You can also use CSS Grid for this. Set display: grid; and place-items: center; on the parent.",
+          "author": "GridGuru",
+          "createdAt": "2023-05-20T11:15:00Z"
+        },
+        {
+          "id": "103",
+          "content": "For older browsers, you can use the good old margin: 0 auto; if it's a block-level element with a defined width.",
+          "author": "BackwardsCompatibilityBuff",
+          "createdAt": "2023-05-20T11:30:00Z"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Understanding JavaScript Promises",
+      "content": "I'm having trouble grasping the concept of Promises in JavaScript. Can someone explain with a simple example?",
+      "author": "PromisePuzzled",
+      "timeAgo": "2023-05-20T09:00:00Z",
+      "tags": ["javascript", "async"],
+      "votes": 10,
+      "views": 85,
+      "answers": 4,
+      "replies": [
+        {
+          "id": "201",
+          "content": "Think of a Promise as a placeholder for a future value. Here's a simple example:\n\n```javascript\nconst fetchData = () => {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      const data = { id: 1, name: \"John\" };\n      resolve(data);\n    }, 1000);\n  });\n};\n\nfetchData()\n  .then(data => console.log(data))\n  .catch(error => console.error(error));\n```\n\nThis simulates fetching data asynchronously.",
+          "author": "AsyncAce",
+          "createdAt": "2023-05-20T09:30:00Z"
+        },
+        {
+          "id": "202",
+          "content": "Promises are great for handling asynchronous operations. They have three states: pending, fulfilled, or rejected. The `then()` method is called when the promise is fulfilled, and `catch()` is called when it's rejected.",
+          "author": "PromiseProf",
+          "createdAt": "2023-05-20T09:45:00Z"
+        },
+        {
+          "id": "203",
+          "content": "Don't forget about `async/await`! It's syntactic sugar for promises that makes asynchronous code look and behave more like synchronous code.",
+          "author": "ModernJSEnthusiast",
+          "createdAt": "2023-05-20T10:00:00Z"
+        },
+        {
+          "id": "204",
+          "content": "Here's the same example using async/await:\n\n```javascript\nasync function fetchData() {\n  return new Promise((resolve) => {\n    setTimeout(() => {\n      resolve({ id: 1, name: \"John\" });\n    }, 1000);\n  });\n}\n\nasync function getData() {\n  try {\n    const data = await fetchData();\n    console.log(data);\n  } catch (error) {\n    console.error(error);\n  }\n}\n\ngetData();\n```",
+          "author": "AsyncAce",
+          "createdAt": "2023-05-20T10:15:00Z"
+        }
+      ]
+    }
+  ]
+}

@@ -9,17 +9,25 @@ import {
   Message,
 } from "discord.js";
 import { Question, Reply } from "@/types";
+import { DiscordApi } from "./types";
 
 const FORUM_CHANNEL_TYPE = ChannelType.GuildForum;
 const THREAD_CHANNEL_TYPE = ChannelType.PublicThread;
 
-interface DiscordPosts {
-  activePosts: Question[];
-  pastPosts: Question[];
-}
+// Factory function to create a Discord client
+export const createDiscordClient = () =>
+  new Client({
+    intents: [
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.MessageContent,
+    ],
+  });
 
 /**
- * Extracts relevant information from a Discord thread to form a Question object.
+ * Internal function
+ *
+ *  Extracts relevant information from a Discord thread to form a Question object.
  *
  * @param thread - The Discord thread to process.
  * @param messages - Collection of messages in the thread.
@@ -65,6 +73,8 @@ function extractQuestionFromThread(
 }
 
 /**
+ * Internal function
+ *
  * Processes a collection of Discord threads and extracts relevant information
  * to form an array of questions.
  *
@@ -83,22 +93,18 @@ async function processThreads(
 }
 
 /**
- * Fetches a Discord thread and returns its details as a `Question` object.
+ * Fetches a Discord thread by its ID and extracts a question from it.
  *
  * @param threadId - The ID of the Discord thread to fetch.
- * @returns A promise that resolves to a `Question` object containing the thread
- * details, or `null` if an error occurs.
+ * @returns The extracted question from the thread, or null if an error occurs.
+ *
+ * @throws Will throw an error if the specified thread does not exist, is not a public thread,
+ * or if no messages are found in the thread.
  */
-export async function fetchDiscordThread(
+export const fetchDiscordThread: DiscordApi["fetchDiscordThread"] = async (
   threadId: string
-): Promise<Question | null> {
-  const client = new Client({
-    intents: [
-      GatewayIntentBits.Guilds,
-      GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.MessageContent,
-    ],
-  });
+) => {
+  const client = createDiscordClient();
 
   try {
     await client.login(process.env.DISCORD_BOT_TOKEN);
@@ -124,29 +130,24 @@ export async function fetchDiscordThread(
   } finally {
     await client.destroy();
   }
-}
+};
 
 /**
- * Fetches posts from a specified Discord forum channel.
+ * Fetches active and past posts from a specified Discord forum channel.
  *
- * This function logs into a Discord client using a bot token, fetches the specified forum channel,
- * and retrieves both active and archived threads from the channel. It processes these threads to
- * extract posts and returns them categorized as active and past posts.
+ * @returns {Promise<{ activePosts: any[], pastPosts: any[] }>} An object containing arrays of active and past posts.
  *
- * @returns {Promise<DiscordPosts>} A promise that resolves to an object containing
- * arrays of active and past posts.
+ * @throws Will throw an error if there is an issue logging in to the Discord client or fetching the channel/posts.
  *
- * @throws Will log an error and return empty arrays if there is an issue with fetching
- * the posts or if the specified channel is not a forum channel.
+ * @remarks
+ * - The function logs in to the Discord client using the token provided in the environment variable `DISCORD_BOT_TOKEN`.
+ * - It fetches the forum channel specified by the environment variable `FORUM_CHANNEL_ID`.
+ * - If the channel is not a forum channel or cannot be accessed, it logs an error and returns empty arrays for active and past posts.
+ * - It fetches active and archived threads from the forum channel and processes them into posts.
+ * - The function ensures the Discord client is destroyed after execution, regardless of success or failure.
  */
-export async function fetchDiscordPosts(): Promise<DiscordPosts> {
-  const client = new Client({
-    intents: [
-      GatewayIntentBits.Guilds,
-      GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.MessageContent,
-    ],
-  });
+export const fetchDiscordPosts: DiscordApi["fetchDiscordPosts"] = async () => {
+  const client = createDiscordClient();
 
   try {
     await client.login(process.env.DISCORD_BOT_TOKEN);
@@ -180,4 +181,4 @@ export async function fetchDiscordPosts(): Promise<DiscordPosts> {
   } finally {
     await client.destroy();
   }
-}
+};

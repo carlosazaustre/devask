@@ -9,6 +9,11 @@ export default defineConfig({
       include: ["src/**/*.ts"],
     },
   },
+  resolve: {
+    alias: {
+      "@": "./src",
+    },
+  },
   esbuild: {
     // No loader configuration needed
   },

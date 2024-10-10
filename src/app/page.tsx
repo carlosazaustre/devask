@@ -1,3 +1,5 @@
+// Page Route: /
+
 import Hero from "@/components/Hero";
 import QuestionListWrapper from "@/components/QuestionListWrapper";
 
