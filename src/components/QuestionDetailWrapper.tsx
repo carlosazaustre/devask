@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { fetchDiscordThread } from "@/lib/discord";
+import { fetchDiscordThread } from "@/lib/discordProd";
 import QuestionDetail from "./QuestionDetail";
 import QuestionSkeleton from "./QuestionSkeleton";
 

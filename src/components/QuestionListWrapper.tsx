@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { fetchDiscordPosts } from "@/lib/discord";
+import { fetchDiscordPosts } from "@/lib/discordProd";
 import QuestionList from "./QuestionList";
 import QuestionSkeleton from "./QuestionSkeleton";
 

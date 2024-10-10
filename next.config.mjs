@@ -8,6 +8,18 @@ const nextConfig = {
         "zlib-sync": "commonjs zlib-sync",
       });
     }
+
+    // Support for JSON files
+    config.module.rules.push({
+      test: /\.json$/,
+      type: "javascript/auto",
+      use: [
+        {
+          loader: "json-loader",
+        },
+      ],
+    });
+
     return config;
   },
 };
