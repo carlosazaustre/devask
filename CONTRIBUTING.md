@@ -17,7 +17,7 @@ For local development, we use a mock of the Discord API to simulate interactions
 
 ## Customizing Mock Data
 
-To add or modify mock data, edit the `mockPosts` array in `src/lib/discordMock.ts`.
+To add or modify mock data, edit the JSON object in `src/mocks/discordData.json`.
 
 ## Contributing
 
